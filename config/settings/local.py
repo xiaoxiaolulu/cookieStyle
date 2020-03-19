@@ -26,12 +26,12 @@ CACHES = {
 # EMAIL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-backend
-EMAIL_BACKEND = env(
-    "DJANGO_EMAIL_BACKEND", default="django.core.mail.backends.console.EmailBackend"
-)
-
-EMAIL_HOST = env("DJANGO_EMAIL_HOST", default="localhost")
-EMAIL_PORT = env("DJANGO_EMAIL_PORT", default=1025)
+# EMAIL_BACKEND = env(
+#     "DJANGO_EMAIL_BACKEND", default="django.core.mail.backends.console.EmailBackend"
+# )
+#
+# EMAIL_HOST = env("DJANGO_EMAIL_HOST", default="localhost")
+# EMAIL_PORT = env("DJANGO_EMAIL_PORT", default=1025)
 # django-debug-toolbar
 # ------------------------------------------------------------------------------
 # https://django-debug-toolbar.readthedocs.io/en/latest/installation.html#prerequisites
