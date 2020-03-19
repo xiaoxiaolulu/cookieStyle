@@ -12,6 +12,8 @@ class UserDetailView(LoginRequiredMixin, DetailView):
     model = User
     slug_field = "username"
     slug_url_kwarg = "username"
+    template_name = 'users/user_detail.html'
+    context_object_name = 'object' or 'user'
 
 
 user_detail_view = UserDetailView.as_view()

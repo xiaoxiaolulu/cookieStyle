@@ -1,36 +1,57 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}User: {{ object.username }}{% endblock %}
+{% block title %}{{ user.username }} | {{ block.super }}{% endblock %}
 
 {% block content %}
-<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+          <img src="{{ MEDIA_URL }}{{ user.picture }}" alt="用户头像" style="width: 180px; height: 180px">
+        </div>
 
-  <div class="row">
-    <div class="col-sm-12">
-
-      <h2>{{ object.username }}</h2>
-      {% if object.name %}
-        <p>{{ object.name }}</p>
-      {% endif %}
+        <div class="col-md-7">
+            <div class="card" style="width: 600px; height: 180px">
+              <div class="card-body">
+                <h3 class="card-title">{{ user.username }}
+                  {% if user.nickname %}
+                    <small class="card-subtitle mb-2 text-muted">【{{ user.nickname }}】</small>
+                  {% endif %}
+                  {% if user.birthday %}
+                    <small class="card-subtitle mb-2 text-muted">{{ user.birthday }}</small>
+                  {% endif %}
+                </h3>
+                <p class="card-text"><b>简介：</b>{{ object.introduction|safe|truncatechars:80}}</p>
+                <p>
+                    {% if object.personal_url %}
+                        <a href="{{ object.personal_url }}" style="font-size: 2em" title="个人网站"><i
+                            class="fa fa-link"></i>
+                        </a>
+                    {% endif %}
+                    {% if object.weibo %}
+                        <a href="{{ object.weibo }}" style="font-size: 2em" title="微博"><i class="fa fa-weibo"></i> </a>
+                    {% endif %}
+                    {% if object.zhihu %}
+                        <a href="{{ object.zhihu }}" style="font-size: 2em" title="知乎"><i class="fa fa-quora"></i> </a>
+                    {% endif %}
+                    {% if object.github %}
+                        <a href="{{ object.github }}" style="font-size: 2em" title="Github"><i
+                            class="fa fa-github"></i>
+                        </a>
+                    {% endif %}
+                    {% if object.linkedin %}
+                        <a href="{{ object.linkedin }}" style="font-size: 2em" title="LinkedIn"><i
+                            class="fa fa-linkedin"></i> </a>
+                    {% endif %}
+                </p>
+              </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            {% if request.user.username == object.username %}
+                <a class="btn btn-primary" href="{% url 'users:update' %}">更新信息</a>
+                <hr />
+                <a class="btn btn-primary" href="{% url 'account_email' %}">添加邮箱</a>
+            {% endif %}
+        </div>
     </div>
-  </div>
-
-{% if object == request.user %}
-<!-- Action buttons -->
-<div class="row">
-
-  <div class="col-sm-12">
-    <a class="btn btn-primary" href="{% url 'users:update' %}" role="button">My Info</a>
-    <a class="btn btn-primary" href="{% url 'account_email' %}" role="button">E-Mail</a>
-    <!-- Your Stuff: Custom user template urls -->
-  </div>
-
-</div>
-<!-- End Action buttons -->
-{% endif %}
-
-
-</div>
 {% endblock content %}
-
