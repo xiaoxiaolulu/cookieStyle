@@ -5,6 +5,7 @@ argon2-cffi==19.2.0  # https://github.com/hynek/argon2_cffi
 redis==3.3.11  # https://github.com/antirez/redis
 mysqlclient
 sqlparse
+sorl-thumbnail
 
 # Django
 # ------------------------------------------------------------------------------

@@ -1,5 +1,4 @@
-{% load static i18n %}<!DOCTYPE html>
-{% load compress %}
+{% load static i18n  thumbnail compress%}<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -59,16 +58,18 @@
               <a class="nav-link" href="{% url 'chat' %}">聊 天</a>
             </li>
             {% if request.user.is_authenticated %}
-              <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                设置
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="{% url 'users:detail' request.user.username  %}">个人中心</a>
-                <div class="dropdown-divider"></div>
+              <li class="nav-item" id="user">
+                <a class="dropdown-item" href="{% url 'users:detail' request.user.username  %}">
+                  {% thumbnail request.user.picture "x25" as im %}
+                    <img src="{{ im.url }}" alt="用户头像" style="border-radius: 50%" class="user-image">
+                  {% empty %}
+                    <img src="{% static 'img/user.png' %}" height="25px" alt="没有头像"/>
+                  {% endthumbnail %}
+                </a>
+              </li>
+              <li class="nav-item" id="logout">
                 <a class="dropdown-item" href="{% url 'account_login' %}">退出</a>
-              </div>
-            </li>
+              </li>
             {% else %}
               <li class="nav-item">
                 {# URL provided by django-allauth/account/urls.py #}

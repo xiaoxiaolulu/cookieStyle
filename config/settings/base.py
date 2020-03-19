@@ -71,7 +71,8 @@ THIRD_PARTY_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
-    'allauth.socialaccount.providers.github'
+    'allauth.socialaccount.providers.github',
+    'sorl.thumbnail'
 ]
 
 LOCAL_APPS = [
