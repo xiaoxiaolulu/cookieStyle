@@ -22,6 +22,7 @@
         <!-- Your stuff: Third-party CSS libraries go here -->
         <link rel="stylesheet" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
         <!-- This file stores project-specific CSS -->
+      <link rel="stylesheet" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
         <link rel="stylesheet" href="{% static 'css/project.css' %}">
         {% block css %}{% endblock css %}
     {% endcompress %}
@@ -39,31 +40,31 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
+            <li class="nav-item" id="home">
               <a class="nav-link" href="{% url 'home' %}">主 页<span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" id="about">
               <a class="nav-link" href="{% url 'about' %}">关 于</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" id="news">
               <a class="nav-link" href="{% url 'news' %}">新 闻</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" id="blogs">
               <a class="nav-link" href="{% url 'blogs' %}">博 客</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" id="quora">
               <a class="nav-link" href="{% url 'quora' %}">问 答</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" id="chat">
               <a class="nav-link" href="{% url 'chat' %}">聊 天</a>
             </li>
             {% if request.user.is_authenticated %}
               <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                个人中心
+                设置
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="{% url 'users:detail' request.user.username  %}">{% trans "My Profile" %}</a>
+                <a class="dropdown-item" href="{% url 'users:detail' request.user.username  %}">个人中心</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{% url 'account_login' %}">退出</a>
               </div>
@@ -115,7 +116,23 @@
       <script src="{% static 'js/project.js' %}"></script>
       <!-- place project specific Javascript in this file -->
       <script type="text/javascript">
-          const currentUser = "{{ request.user.username }}";
+          {#const currentUser = "{{ request.user.username }}";#}
+          $(function () {
+            let flags = ['news', 'blogs', 'quora', 'chat', 'signup', 'login', 'users', 'logout', 'about'];
+            let href = window.location.href;
+            let isHome = true;
+            flags.forEach(function (item) {
+              if (href.indexOf(item) !== -1){
+                $("#" + item).addClass('active');
+                isHome = false;
+              } else {
+               $("#" + item).removeClass('active');
+              }
+            });
+            if (isHome){
+              $('#home').addClass('active');
+            }
+          })
       </script>
       {% block js %}{% endblock js %}
     {% endcompress %}
