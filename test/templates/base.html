@@ -40,20 +40,34 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="{% url 'home' %}">主 页<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'about' %}">About</a>
+              <a class="nav-link" href="{% url 'about' %}">关 于</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'news' %}">新 闻</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'blogs' %}">博 客</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'quora' %}">问 答</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'chat' %}">聊 天</a>
             </li>
             {% if request.user.is_authenticated %}
-              <li class="nav-item">
-                {# URL provided by django-allauth/account/urls.py #}
-                <a class="nav-link" href="{% url 'users:detail' request.user.username  %}">{% trans "My Profile" %}</a>
-              </li>
-              <li class="nav-item">
-                {# URL provided by django-allauth/account/urls.py #}
-                <a class="nav-link" href="{% url 'account_logout' %}">{% trans "Sign Out" %}</a>
-              </li>
+              <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                个人中心
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="{% url 'users:detail' request.user.username  %}">{% trans "My Profile" %}</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url 'account_login' %}">退出</a>
+              </div>
+            </li>
             {% else %}
               <li class="nav-item">
                 {# URL provided by django-allauth/account/urls.py #}
@@ -65,9 +79,12 @@
               </li>
             {% endif %}
           </ul>
+          <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          </form>
         </div>
       </nav>
-
     </div>
 
     <div class="container">
