@@ -8,7 +8,6 @@ from django.views import defaults as default_views
 urlpatterns = [
     path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
     path("about/", TemplateView.as_view(template_name="pages/about.html"), name="about"),
-    path("news/", TemplateView.as_view(template_name="pages/news.html"), name="news"),
     path("blogs/", TemplateView.as_view(template_name="pages/blogs.html"), name="blogs"),
     path("quora/", TemplateView.as_view(template_name="pages/quora.html"), name="quora"),
     path("chat/", TemplateView.as_view(template_name="pages/chat.html"), name="chat"),

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+  新闻列表页 | {{ block.super }}
+{% endblock %}
+
+{% block css %}
+{% endblock %}
+
+{% block content %}
+  {% for news in news_list %}
+    {{ news.reply }} --- {{ news.content }}
+    <hr>
+  {% endfor %}
+{% endblock %}
+
+{% block js %}
+{% endblock %}
