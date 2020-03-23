@@ -53,3 +53,19 @@ def like(request):
     news.switch_like(request.user)
     # 返回赞的数量
     return JsonResponse({"likes": news.likers_count()})
+
+
+@login_required
+@ajax_required
+@require_http_methods(['POST'])
+def post_reply(request):
+
+    replyContent = request.POST['replyContent'].strip()
+    parentId = request.POST['parent']
+    parent = News.objects.get(pk=parentId)
+    if replyContent:
+        parent.reply_this(request.user, replyContent)
+        return JsonResponse({"newsid": parent.uuid_id, "replies_count": parent.replies_count()})
+    else:
+        return HttpResponseBadRequest("内容不能为空")
+

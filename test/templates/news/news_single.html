@@ -22,10 +22,15 @@
                 {% endif %}
                 <span class="like-count">{{ news.likers_count }}</span>
               </a>
-              <a href="#" class="relay">
+              <a href="#" class="relay pull-right mr-3">
                 <i class="fa fa-comment-o ml-4" aria-hidden="true"></i>
                 <span class="relay-count">{{ news.replies_count }}</span>
               </a>
+              <button type="button" class="btn btn-primary pull-right btn-light btn-sm mr-3" data-toggle="modal"
+                      data-target="#replayFormModal"
+                      data-who="@{{ news.user.username }}"
+                      data-newsid="{{ news.pk }}"
+              >回复</button>
               <span class="timestamp pull-left">{{ news.updated_at | naturaltime}}</span>
             </div>
           </div>

@@ -1,0 +1,34 @@
+<div class="modal fade" id="replayFormModal" tabindex="-1" role="dialog" aria-labelledby="replayFormModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="replayFormModalLabel">New message</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="postReplyForm" role="form" method="post" action="#" onsubmit="return false">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Recipient:</label>
+            <input type="text" class="form-control" id="recipient-name" name="recipient">
+          </div>
+          <div class="form-group">
+            <label for="newsid" class="col-form-label">News pk:</label>
+            <input type="text" class="form-control" id="newsid" name="parent">
+          </div>
+          <div class="form-group">
+            <label for="reply-content" class="col-form-label">Message:</label>
+            <textarea class="form-control" id="reply-content" name="replyContent"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="postReply">Send message</button>
+      </div>
+    </div>
+  </div>
+</div>

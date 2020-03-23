@@ -65,4 +65,41 @@ $(function () {
         });
         return false;
     });
+
+    $('#replayFormModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var recipient = button.data('who');
+        var newsid = button.data('newsid');
+        var modal = $(this);
+        modal.find('.modal-title').text('新的回复 ' + recipient);
+        modal.find('.modal-body input#recipient-name').val(recipient);
+        modal.find('.modal-body input#newsid').val(newsid)
+    });
+
+    $("#postReply").click(function () {
+        if ($("#reply-content").val() === '') {
+            alert("请输入提问内容");
+            return;
+        }
+        if (currentUser === "") {
+            alert("请登录后在发布评论");
+            return;
+        } else {
+            $.ajax({
+                url: '/news/post-reply/',
+                data: $("#postReplyForm").serialize(),
+                type: 'POST',
+                cache: false,
+                success: function (data) {
+                    let li = $('[news-id=' + data.newsid + ']');
+                    $(".relay .relay-count", li).text(data.replies_count);
+                    $("#reply-content").val("");
+                    $("#replayFormModal").modal("hide");
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                },
+            });
+        }
+    });
 });
