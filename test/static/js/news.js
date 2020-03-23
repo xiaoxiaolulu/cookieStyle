@@ -1,10 +1,19 @@
 $(function () {
+    let csrftoken = getCookie('csrftoken');
+    $.ajaxSetup({
+        beforeSend: function (xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+
     $("#newsFormModal").on('shown.bs.modal', function () {
         $('#newsInput').trigger('focus')
     });
 
     $("#postNews").click(function () {
-        if ($("#newsInput").val() === ''){
+        if ($("#newsInput").val() === '') {
             alert("请输入新闻动态的内容");
             return;
         }
@@ -28,5 +37,32 @@ $(function () {
                 },
             });
         }
-    })
+    });
+
+    $("ul.stream").on("click", ".like", function () {
+        // Ajax call on action on like button.
+        var li = $(this).closest("li");
+        var news = $(li).attr("news-id");
+        var payload = {
+            'news': news,
+            'csrf_token': csrftoken
+        };
+        $.ajax({
+            url: '/news/like/',
+            data: payload,
+            type: 'POST',
+            cache: false,
+            success: function (data) {
+                $(".like .like-count", li).text(data.likes);
+                if ($(".like .heart", li).hasClass("fa fa-heart")) {
+                    $(".like .heart", li).removeClass("fa fa-heart");
+                    $(".like .heart", li).addClass("fa fa-heart-o");
+                } else {
+                    $(".like .heart", li).removeClass("fa fa-heart-o");
+                    $(".like .heart", li).addClass("fa fa-heart");
+                }
+            }
+        });
+        return false;
+    });
 });

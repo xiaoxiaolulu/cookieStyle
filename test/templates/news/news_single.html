@@ -1,5 +1,5 @@
 {% load static thumbnail humanize%}
-<li class="news-item" style="list-style: none">
+<li class="news-item" style="list-style: none" news-id="{{ news.pk }}">
         <div class="media">
           {% thumbnail news.user.picture "x50" as im %}
             <img src="{{ im.url }}" alt="用户头像" style="border-radius: 20%" class="user-image align-self-start mr-3">

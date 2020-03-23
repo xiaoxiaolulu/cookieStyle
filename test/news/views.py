@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponseBadRequest, HttpResponse
+from django.http import HttpResponseBadRequest, HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
@@ -40,3 +40,16 @@ class NewsDeleteView(LoginRequiredMixin, AuthorRequiredMixin, DeleteView):
     model = News
     template_name = 'news/news_confirm_delete.html'
     success_url = reverse_lazy("news:list")  # 在项目的URLConf未加载前使用
+
+
+@login_required
+@ajax_required
+@require_http_methods(['POST'])
+def like(request):
+
+    news_id = request.POST['news']
+    news = News.objects.get(pk=news_id)
+    # 取消或者添加赞
+    news.switch_like(request.user)
+    # 返回赞的数量
+    return JsonResponse({"likes": news.likers_count()})
