@@ -117,7 +117,7 @@
       <script src="{% static 'js/project.js' %}"></script>
       <!-- place project specific Javascript in this file -->
       <script type="text/javascript">
-          {#const currentUser = "{{ request.user.username }}";#}
+          const currentUser = "{{ request.user.username }}";
           $(function () {
             let flags = ['news', 'blogs', 'quora', 'chat', 'signup', 'login', 'users', 'logout', 'about'];
             let href = window.location.href;

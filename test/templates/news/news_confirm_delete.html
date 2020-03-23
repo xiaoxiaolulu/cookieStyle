@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+  删除新闻 | {{ block.super }}
+{% endblock %}
+{% block content %}
+  <h3>确定要删除么？</h3>
+  <form action="{% url 'news:delete_news' news.pk %}" method="post">
+    {% csrf_token %}
+    <button class="btn btn-primary" type="submit">删除</button>
+  </form>
+{% endblock %}

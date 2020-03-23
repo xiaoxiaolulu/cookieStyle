@@ -1,0 +1,34 @@
+{% load static thumbnail humanize%}
+<li class="news-item" style="list-style: none">
+        <div class="media">
+          {% thumbnail news.user.picture "x50" as im %}
+            <img src="{{ im.url }}" alt="用户头像" style="border-radius: 20%" class="user-image align-self-start mr-3">
+          {% empty %}
+            <img src="{% static 'img/user.png' %}" height="50px" alt="没有头像"/>
+          {% endthumbnail %}
+          <div class="media-body">
+            <h5 class="mt-0">{{ news.user.get_profile_name }}
+              {% if request.user.username == news.user.username %}
+                <a href="{% url 'news:delete_news' news.pk %}"><i class="fa fa-times pull-right" title="点击删除这条动态"></i></a>
+              {% endif %}
+            </h5>
+            <p>{{ news.content }}</p>
+            <div class="interaction">
+              <a href="#" class="like pull-right" title="{% for item in news.get_likers %} {{ item.get_profile_name }} &#10; {% endfor %}">
+                {% if request.user in news.get_likers %}
+                  <i class="heart fa fa-heart" aria-hidden="true"></i>
+                {% else %}
+                  <i class="heart fa fa-heart-o" aria-hidden="true"></i>
+                {% endif %}
+                <span class="like-count">{{ news.likers_count }}</span>
+              </a>
+              <a href="#" class="relay">
+                <i class="fa fa-comment-o ml-4" aria-hidden="true"></i>
+                <span class="relay-count">{{ news.replies_count }}</span>
+              </a>
+              <span class="timestamp pull-left">{{ news.updated_at | naturaltime}}</span>
+            </div>
+          </div>
+        </div>
+      </li>
+<hr>

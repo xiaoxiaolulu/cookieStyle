@@ -1,6 +1,5 @@
 {% extends "base.html" %}
-{% load static %}
-
+{% load static thumbnail%}
 {% block title %}
   新闻列表页 | {{ block.super }}
 {% endblock %}
@@ -9,11 +8,47 @@
 {% endblock %}
 
 {% block content %}
-  {% for news in news_list %}
-    {{ news.reply }} --- {{ news.content }}
-    <hr>
-  {% endfor %}
+  <div class="my-3"></div>
+  <div class="row">
+    <div class="col-md-8">
+        <ul class="stream">
+          {% for news in news_list %}
+            {% include 'news/news_single.html' with news=news%}
+          {% endfor %}
+        </ul>
+    </div>
+    <div class="col-md-4">
+      <div class="card" style="width: 18rem;">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newsFormModal">
+          发布新闻动态
+        </button>
+      </div>
+      <div class="card mt-4" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title">今日話題</h5>
+          <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="#" class="card-link">Card link</a>
+          <a href="#" class="card-link">Another link</a>
+        </div>
+      </div>
+      <div class="card mt-4" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title">本周要問</h5>
+          <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="#" class="card-link">Card link</a>
+          <a href="#" class="card-link">Another link</a>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}
 
+{% block modal %}
+  {% include 'news/news_form_modal.html' %}
+{% endblock modal %}
+
 {% block js %}
+  <script src="{% static 'js/news.js' %}" type="text/javascript"></script>
 {% endblock %}
