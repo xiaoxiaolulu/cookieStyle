@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.urls import include, path
+from django.urls import include, path, re_path
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.views.generic import TemplateView
@@ -10,6 +10,9 @@ urlpatterns = [
     path("about/", TemplateView.as_view(template_name="pages/about.html"), name="about"),
     path("quora/", TemplateView.as_view(template_name="pages/quora.html"), name="quora"),
     path("chat/", TemplateView.as_view(template_name="pages/chat.html"), name="chat"),
+
+    # 第三方App
+    re_path(r'mdeditor/', include('mdeditor.urls')),
 
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
@@ -22,6 +25,7 @@ urlpatterns = [
     path("news/", include("test.news.urls", namespace="news")),
     path("blogs/", include("test.blogs.urls", namespace="blogs")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 
 if settings.DEBUG:
     # This allows the error pages to be debugged during development, just visit
