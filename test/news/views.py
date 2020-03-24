@@ -69,3 +69,15 @@ def post_reply(request):
     else:
         return HttpResponseBadRequest("内容不能为空")
 
+
+@ajax_required
+@require_http_methods(['GET'])
+def get_reply(request):
+
+    news_id = request.GET['newsId']
+    news = News.objects.get(pk=news_id)
+    html = render_to_string('news/news_replies.html', {"replies": news.get_children()})
+    return JsonResponse({
+        "uuid": news_id,
+        "replies": html
+    })

@@ -14,7 +14,7 @@
             </h5>
             <p>{{ news.content }}</p>
             <div class="interaction">
-              <a href="#" class="like pull-right" title="{% for item in news.get_likers %} {{ item.get_profile_name }} &#10; {% endfor %}">
+              <a href="#" class="like pull-right" title="{% for item in news.get_likers %} {{ item.get_profile_name }} &#10; {% endfor %}" >
                 {% if request.user in news.get_likers %}
                   <i class="heart fa fa-heart" aria-hidden="true"></i>
                 {% else %}
@@ -22,9 +22,9 @@
                 {% endif %}
                 <span class="like-count">{{ news.likers_count }}</span>
               </a>
-              <a href="#" class="relay pull-right mr-3">
+              <a href="#" class="btn-sm reply pull-right mr-3"  data-toggle="modal" data-target="#replyListModal">
                 <i class="fa fa-comment-o ml-4" aria-hidden="true"></i>
-                <span class="relay-count">{{ news.replies_count }}</span>
+                <span class="reply-count">{{ news.replies_count }}</span>
               </a>
               <button type="button" class="btn btn-primary pull-right btn-light btn-sm mr-3" data-toggle="modal"
                       data-target="#replayFormModal"

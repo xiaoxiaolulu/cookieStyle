@@ -92,7 +92,7 @@ $(function () {
                 cache: false,
                 success: function (data) {
                     let li = $('[news-id=' + data.newsid + ']');
-                    $(".relay .relay-count", li).text(data.replies_count);
+                    $(".reply .reply-count", li).text(data.replies_count);
                     $("#reply-content").val("");
                     $("#replayFormModal").modal("hide");
                 },
@@ -101,5 +101,18 @@ $(function () {
                 },
             });
         }
+    });
+
+    $("ul.stream").on("click", ".reply", function () {
+        var li = $(this).closest("li");
+        var newsId = $(li).attr("news-id");
+        $.ajax({
+            url: '/news/get-relies/',
+            data: {'newsId': newsId},
+            cache: false,
+            success: function (data) {
+                $("#replyListModal .modal-body").html(data.replies);
+            }
+        });
     });
 });
