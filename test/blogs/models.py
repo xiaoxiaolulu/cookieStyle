@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models import Count
 from mdeditor.fields import MDTextField
+from slugify import slugify
 from taggit.managers import TaggableManager
 from test.users.models import User
 
@@ -63,3 +64,8 @@ class Article(models.Model):
     class Meta:
         verbose_name = '文章'
         verbose_name_plural = verbose_name
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super(Article, self).save(*args, **kwargs)

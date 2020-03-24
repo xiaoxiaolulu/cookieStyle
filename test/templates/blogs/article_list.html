@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static thumbnail %}
+{% block title %}
+  博客文章列表 | {{ block.super }}
+{% endblock %}
+{% block css %}
+{% endblock %}
+{% block content %}
+  <div class="container">
+    <div class="card my-3">
+      <h5 class="card-header" style="padding: 4px">文章分类
+        {% if request.user.is_authenticated %}
+          <a class="btn-sm btn-primary pull-right" href="" title="草稿箱">
+            <i class="fa fa-pencil-square-o" aria-hidden="true"></i> 草稿箱</a>
+          <a class="btn-sm btn-success pull-right mr-3" href="{% url 'blogs:create' %}" title="写文章">
+            <i class="fa fa-pencil" aria-hidden="true"></i> 写文章</a>
+        {% else %}
+          <small class="pull-right">登录后可以写文章</small>
+        {% endif %}
+      </h5>
+      <div class="card-body" style="padding: 8px">
+        {% for category in articles_categories %}
+          <a class="mr-3" href="#" style="color: black">{{ category.catname }}</a>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-8">
+        <ul class="list-unstyled">
+          {% for article in article_list %}
+            <li class="media {% cycle '' 'my-4' %}">
+              {% thumbnail article.cover "280x440" as im %}
+                <img src="{{ im.url }}" alt="文章图片" class="mr-3" height="140" width="220">
+              {% empty %}
+                <img class="mr-3" src="http://placehold.it/1920x1080" alt="图片大小" height="140" width="220">
+              {% endthumbnail %}
+              <div class="media-body">
+                <h5 class="mt-0 mb-1">{{ article.title }}</h5>
+                <p style="font-size: small">
+                  {{ article.abstract|safe|truncatechars:80 }}
+                </p>
+                <div>标签：
+                  {% for tag in article.tags.names %}
+                    <a href="#">
+                      <span class="badge badge-info">{{ tag }}</span>
+                    </a>
+                  {% endfor %}
+                </div>
+                <div class="text-muted">
+                  <a href="{% url 'users:detail'  article.user.username %}"> {{ article.user.get_profile_name }}</a>
+                  发表于：{{ article.created_at }}
+                </div>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+        {% include 'pagination.html' %}
+      </div>
+      <div class="col-md-4">
+        <h6 class="card-header">标签云</h6>
+        <div class="card-body">
+          {% for tag, count in popular_tags %}
+            <a href="#">
+              <span class="badge-info badge">{{ tag }} {{ count }}</span>
+            </a>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+{% block modal %}
+{% endblock %}
+{% block js %}
+{% endblock %}
