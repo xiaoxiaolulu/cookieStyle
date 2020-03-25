@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static comments crispy_forms_tags thumbnail %}
 {% block title %}
   {{ article.title }} | {{ block.super }}
 {% endblock %}
@@ -17,7 +17,7 @@
           发表于{{ article.created_at|date:"Y-m-d" }}
           {% if request.user.username == article.user.username %}
             &nbsp;&nbsp;|&nbsp;&nbsp;
-            <a href="{% url 'blogs:update' article.pk  %}" title="编辑文章">
+            <a href="{% url 'blogs:update' article.pk %}" title="编辑文章">
               <i class="fa fa-pencil-square-o" aria-hidden="true">编辑文本</i>
             </a>
           {% endif %}
@@ -33,6 +33,46 @@
             {{ article.content }}
           </textarea>
         </div>
+        <hr>
+        {% get_comment_count for article as comment_count %}
+        <h6>当前文章评论数 ： {{ comment_count }}</h6>
+        <hr>
+        {% get_comment_form for article as form %}
+        <div class="card my-4">
+          <h5 class="card-header">评论</h5>
+          <div class="card-body">
+            {% if user.is_authenticated %}
+              {% get_comment_form for article as form %}
+              <form action="{% comment_form_target %}" method="POST">
+                {% csrf_token %}
+                <div id="id_comment" class="form-group">
+                  <textarea name="comment" rows="5" maxlength="400" class="textarea form-control"></textarea>
+                </div>
+                {{ form.content_type }}
+                {{ form.object_pk }}
+                {{ form.timestamp }}
+                {{ form.security_hash }}
+                <input type="hidden" name="next" value="{% url 'blogs:detail' article.slug %}"/>
+                <input class="btn btn-info" type="submit" value="提交" id="id_submit"/>
+              </form>
+            {% endif %}
+          </div>
+        </div>
+        <hr>
+        {% get_comment_list for article as comment_list %}
+        {% for comment in comment_list %}
+          <div class="media mb-4">
+            {% thumbnail comment.user.picture "x50" as im %}
+              <img class="d-flex mr-3 rounded-circle" src="{{ im.url }}" alt="用户头像" id="pic"/>
+            {% empty %}
+              <img class="d-flex mr-3 rounded-circle" src="{% static 'img/user.png' %}" height="50px" alt="没有头像"/>
+            {% endthumbnail %}
+            <div class="media-body">
+              <h5 class="mt-0">{{ comment.user.get_profile_name }}</h5>
+              {{ comment }}
+            </div>
+          </div>
+        {% endfor %}
       </div>
       <div class="col-md-4">
         <div class="card my-2">
@@ -58,21 +98,21 @@
   <script type="text/javascript">
     $(function () {
       let testEditormdView = editormd.markdownToHTML("test-editormd-view", {
-                        markdown        : $("#markdown-textarea").text() ,//+ "\r\n" + $("#append-test").text(),
-                        //htmlDecode      : true,       // 开启 HTML 标签解析，为了安全性，默认不开启
-                        htmlDecode      : "style,script,iframe",  // you can filter tags decode
-                        toc             : true,
-                        {#tocm            : true,    // Using [TOCM]#}
-                        tocContainer    : "#custom-toc-container", // 自定义 ToC 容器层
-                        //gfm             : false,
-                        tocDropdown     : true,
-                        // markdownSourceCode : true, // 是否保留 Markdown 源码，即是否删除保存源码的 Textarea 标签
-                        emoji           : true,
-                        taskList        : true,
-                        tex             : true,  // 默认不解析
-                        flowChart       : true,  // 默认不解析
-                        sequenceDiagram : true,  // 默认不解析
-                    });
+        markdown: $("#markdown-textarea").text(),//+ "\r\n" + $("#append-test").text(),
+        //htmlDecode      : true,       // 开启 HTML 标签解析，为了安全性，默认不开启
+        htmlDecode: "style,script,iframe",  // you can filter tags decode
+        toc: true,
+        {#tocm            : true,    // Using [TOCM]#}
+        tocContainer: "#custom-toc-container", // 自定义 ToC 容器层
+        //gfm             : false,
+        tocDropdown: true,
+        // markdownSourceCode : true, // 是否保留 Markdown 源码，即是否删除保存源码的 Textarea 标签
+        emoji: true,
+        taskList: true,
+        tex: true,  // 默认不解析
+        flowChart: true,  // 默认不解析
+        sequenceDiagram: true,  // 默认不解析
+      });
     })
   </script>
 {% endblock %}

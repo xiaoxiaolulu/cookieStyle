@@ -22,7 +22,6 @@ class ArticleListView(ListView):
         context = super(ArticleListView, self).get_context_data(*args, **kwargs)
         context['articles_categories'] = ArticleCategory.objects.all()
         context['popular_tags'] = Article.objects.get_counted_tags()
-        print(context)
         return context
 
 

@@ -13,6 +13,7 @@ urlpatterns = [
 
     # 第三方App
     re_path(r'mdeditor/', include('mdeditor.urls')),
+    re_path(r'^comments/', include('django_comments.urls')),
 
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),

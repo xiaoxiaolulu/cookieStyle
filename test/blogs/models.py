@@ -68,5 +68,5 @@ class Article(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.title + self.user.username + uuid4().__str__()[0: 8])
+            self.slug = slugify(self.title + self.user.username + "-" + uuid4().__str__()[0: 8])
         super(Article, self).save(*args, **kwargs)
