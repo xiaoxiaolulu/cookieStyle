@@ -17,7 +17,7 @@
           发表于{{ article.created_at|date:"Y-m-d" }}
           {% if request.user.username == article.user.username %}
             &nbsp;&nbsp;|&nbsp;&nbsp;
-            <a href="" title="编辑文章">
+            <a href="{% url 'blogs:update' article.pk  %}" title="编辑文章">
               <i class="fa fa-pencil-square-o" aria-hidden="true">编辑文本</i>
             </a>
           {% endif %}

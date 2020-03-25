@@ -1,3 +1,4 @@
+from uuid import uuid4
 from django.db import models
 from django.db.models import Count
 from mdeditor.fields import MDTextField
@@ -48,7 +49,7 @@ class Article(models.Model):
     status = models.CharField(max_length=1, choices=STATUS, default='D', verbose_name='文章状态')
     category = models.ForeignKey(ArticleCategory, verbose_name='文章类别', null=True, blank=True, on_delete=models.SET_NULL)
     user = models.ForeignKey(User, null=True, related_name='author', on_delete=models.SET_NULL, verbose_name='作者')
-    title = models.CharField(max_length=255, blank=False, null=False, unique=True, verbose_name='文章标题')
+    title = models.CharField(max_length=255, blank=False, null=False, unique=False, verbose_name='文章标题')
     cover = models.ImageField(upload_to='blogs/covers/%Y/%m/%d/', verbose_name='文章封面')
     abstract = models.TextField(null=True, blank=True, verbose_name='文章摘要', default='此文章没有摘要')
     content = MDTextField(default="", verbose_name='文章内容')
@@ -67,5 +68,5 @@ class Article(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.title)
+            self.slug = slugify(self.title + self.user.username + uuid4().__str__()[0: 8])
         super(Article, self).save(*args, **kwargs)
