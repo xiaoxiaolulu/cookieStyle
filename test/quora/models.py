@@ -3,6 +3,7 @@ from collections import Counter
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from slugify import slugify
 from taggit.managers import TaggableManager
 from test.users.models import User
 
@@ -70,6 +71,11 @@ class Question(models.Model):
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title + self.user.username + "-" + uuid.uuid4().__str__()[0: 8])
+        super(Question, self).save(*args, **kwargs)
 
     def get_all_answers(self):
         return Answer.objects.filter(question=self)
