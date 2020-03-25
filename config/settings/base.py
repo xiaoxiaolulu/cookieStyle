@@ -81,7 +81,8 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "test.users.apps.UsersConfig",
     "test.news.apps.NewsConfig",
-    "test.blogs.apps.BlogsConfig"
+    "test.blogs.apps.BlogsConfig",
+    "test.quora.apps.QuoraConfig"
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
