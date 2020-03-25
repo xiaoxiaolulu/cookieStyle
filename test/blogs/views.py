@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, DetailView
 from test.blogs.forms import ArticleForm
 from test.blogs.models import Article, ArticleCategory
 
@@ -40,3 +40,16 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
         message = '您的文章已经创建成功！'
         messages.success(self.request, message)
         return reverse_lazy('blogs:list')
+
+
+class DraftListView(ArticleListView):
+
+    def get_queryset(self, **kwargs):
+        return Article.objects.get_drafts()
+
+
+class ArticleDetailView(DetailView):
+
+    model = Article
+    template_name = 'blogs/article_detail.html'
+    context_object_name = 'article'

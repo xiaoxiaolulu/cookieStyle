@@ -10,7 +10,7 @@
     <div class="card my-3">
       <h5 class="card-header" style="padding: 4px">文章分类
         {% if request.user.is_authenticated %}
-          <a class="btn-sm btn-primary pull-right" href="" title="草稿箱">
+          <a class="btn-sm btn-primary pull-right" href="{% url 'blogs:drafts' %}" title="草稿箱">
             <i class="fa fa-pencil-square-o" aria-hidden="true"></i> 草稿箱</a>
           <a class="btn-sm btn-success pull-right mr-3" href="{% url 'blogs:create' %}" title="写文章">
             <i class="fa fa-pencil" aria-hidden="true"></i> 写文章</a>
@@ -29,11 +29,13 @@
         <ul class="list-unstyled">
           {% for article in article_list %}
             <li class="media {% cycle '' 'my-4' %}">
-              {% thumbnail article.cover "280x440" as im %}
-                <img src="{{ im.url }}" alt="文章图片" class="mr-3" height="140" width="220">
-              {% empty %}
-                <img class="mr-3" src="http://placehold.it/1920x1080" alt="图片大小" height="140" width="220">
-              {% endthumbnail %}
+                <a href="{% url 'blogs:detail' article.slug %}">
+                {% thumbnail article.cover "280x440" as im %}
+                  <img src="{{ im.url }}" alt="文章图片" class="mr-3" height="140" width="220">
+                {% empty %}
+                  <img class="mr-3" src="http://placehold.it/1920x1080" alt="图片大小" height="140" width="220">
+                {% endthumbnail %}
+              </a>
               <div class="media-body">
                 <h5 class="mt-0 mb-1">{{ article.title }}</h5>
                 <p style="font-size: small">
