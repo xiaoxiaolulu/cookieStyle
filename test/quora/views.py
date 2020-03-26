@@ -63,6 +63,6 @@ class QuestionDetailView(DetailView):
     model = Question
     context_object_name = 'question'
     template_name = 'quora/question_detail.html'
-    query_pk_and_slug = True
-    slug_url_kwarg = 'slug'
-    pk_url_kwarg = 'pk'
+
+    def get_queryset(self):
+        return Question.objects.select_related('user').filter(pk=self.kwargs['pk'])

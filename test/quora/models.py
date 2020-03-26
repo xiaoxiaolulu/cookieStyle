@@ -4,6 +4,7 @@ from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelatio
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from markdownx.models import MarkdownxField
+from markdownx.utils import markdownify
 from slugify import slugify
 from taggit.managers import TaggableManager
 from test.users.models import User
@@ -79,6 +80,9 @@ class Question(models.Model):
             self.slug = slugify(self.title + self.user.username + "-" + uuid.uuid4().__str__()[0: 8])
         super(Question, self).save(*args, **kwargs)
 
+    def get_markdown(self):
+        return markdownify(self.content)
+
     def get_all_answers(self):
         return Answer.objects.filter(question=self)
 
@@ -129,3 +133,6 @@ class Answer(models.Model):
         # return len(self.get_upvoters()) - len(self.get_downvoters())
         dic = Counter(self.votes.values_list('value', flat=True))
         return dic[True] - dic[False]
+
+    def get_markdown(self):
+        return markdownify(self.content)

@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
-{% load static crispy_forms_tags %}
+{% load static crispy_forms_tags humanize %}
 {% block title %}
   {{ question.title }}| {{ block.super }}
 {% endblock %}
 {% block css %}
-  {{ form.media }}
+  <link rel="stylesheet" href="{% static 'css/qa.css' %}">
 {% endblock %}
 {% block content %}
   <div class="container">
@@ -17,8 +17,49 @@
       <hr>
     </div>
     <div class="row">
-      <div class="col-md-11"></div>
-      <div class="col-md-1"></div>
+      <div class="col-md-11">
+        <p>{{ question.get_markdown|safe }}</p>
+        <span class="question-user pull-left">
+          {% if question.tags.names %}
+            【标签】
+            {% for tag in question.tags.names %}
+              <span class="badge badge-primary">{{ tag }}</span>
+            {% endfor %}
+          {% endif %}
+        </span>
+        <span class="question-user pull-right">
+          <a href="{% url 'users:detail' question.user.username %}">{{ question.user.get_profile_name }}</a>
+          <span class="text-secondary">{{ question.created_at|naturaltime }}</span>
+        </span>
+      </div>
+      <div class="col-md-1">
+        <div class="question-info options">
+          <h3 class="{% if question.has_answer %}bg-success text-white{% endif %}">{{ question.count_answers }}</h3>
+          <small class="text-secondary">回答</small>
+          <i id="questionUpVote"
+             class="fa fa-chevron-up vote up-vote question-vote{% if request.user in question.get_upvoters %} vote
+                d{% endif %}"
+             aria-hidden="true" title="单击赞同，再次点击取消"></i>
+          <h3 id="questionVotes">{{ question.total_votes }}</h3>
+          <i id="questionDownVote"
+             class="fa fa-chevron-down vote down-vote question-vote{% if request.user in question.get_downvoters %} voted
+{% endif %}" aria-hidden="true" title="单击反对，再次点击取消"></i>
+          <small class="text-secondary">投票</small>
+        </div>
+      </div>
+    </div>
+    <div class="page-header">
+      <hr>
+      <h5>所有回答 {{ question.count_answers }}条： {% if question.has_correct %} 已有{% else %} 还没 {% endif %} 答案被采纳
+        <a href="" class="btn-sm btn-primary pull-right" role="button">回答</a>
+      </h5>
+    </div>
+    <div class="row">
+      <ul class="col-md-12">
+        {% for item in question.answers.all %}
+          {% include 'quora/answer_single.html' with answer=item%}
+        {% endfor %}
+      </ul>
     </div>
   </div>
 {% endblock %}

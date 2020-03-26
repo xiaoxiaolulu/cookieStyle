@@ -20,7 +20,7 @@
       <div class="col-md-10">
         <div class="ml-5">
           <p style="font-size: 20px"><a
-                  href="{% url 'quora:question_detail' question.pk question.slug %}">{{ question.title|title }}</a></p>
+                  href="{% url 'quora:question_detail' question.pk%}">{{ question.title|title }}</a></p>
           {% if question.tags.names %}
             {% for tag in question.tags.names %}
               <span class="badge badge-info"> {{ tag }}</span>
