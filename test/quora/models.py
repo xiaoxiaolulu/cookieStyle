@@ -109,7 +109,7 @@ class Answer(models.Model):
     uuid_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, related_name='answers', on_delete=models.CASCADE, verbose_name='回答者')
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answers', verbose_name='问题')
-    content = models.TextField(verbose_name='答案内容')
+    content = MarkdownxField(verbose_name='答案内容')
     is_accepted = models.BooleanField(default=False, verbose_name='是否被接受')
     votes = GenericRelation(Vote, verbose_name='投票情况')
     created_at = models.DateTimeField(auto_now_add=True, null=True, verbose_name='创建时间')

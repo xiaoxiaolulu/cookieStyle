@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView
 from test.quora.forms import QuestionForms
-from test.quora.models import Question
+from test.quora.models import Question, Answer
 
 
 class QuestionListView(ListView):
@@ -66,3 +66,19 @@ class QuestionDetailView(DetailView):
 
     def get_queryset(self):
         return Question.objects.select_related('user').filter(pk=self.kwargs['pk'])
+
+
+class AnswerCreateView(LoginRequiredMixin, CreateView):
+
+    model = Answer
+    fields = ['content', ]
+    template_name = 'quora/answer_create_form.html'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        form.instance.question_id = self.kwargs['question_id']
+        return super(AnswerCreateView, self).form_valid(form)
+
+    def get_success_url(self):
+        messages.success(self.request, "您的问题已经")
+        return reverse_lazy('quora:question_detail', kwargs={"pk": self.kwargs['question_id']})

@@ -51,7 +51,7 @@
     <div class="page-header">
       <hr>
       <h5>所有回答 {{ question.count_answers }}条： {% if question.has_correct %} 已有{% else %} 还没 {% endif %} 答案被采纳
-        <a href="" class="btn-sm btn-primary pull-right" role="button">回答</a>
+        <a href="{% url 'quora:create_answer' question.pk %}" class="btn-sm btn-primary pull-right" role="button">回答</a>
       </h5>
     </div>
     <div class="row">
