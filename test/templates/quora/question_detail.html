@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static crispy_forms_tags %}
+{% block title %}
+  {{ question.title }}| {{ block.super }}
+{% endblock %}
+{% block css %}
+  {{ form.media }}
+{% endblock %}
+{% block content %}
+  <div class="container">
+    <div class="page-header mt-2">
+      <h4>{{ question.title }}
+        <a href="{% url 'quora:ask_question' %}" class="btn-sm btn-primary pull-right">
+          <i class="fa fa-pencil" aria-hidden="true"></i> 提问
+        </a>
+      </h4>
+      <hr>
+    </div>
+    <div class="row">
+      <div class="col-md-11"></div>
+      <div class="col-md-1"></div>
+    </div>
+  </div>
+{% endblock %}
+{% block modal %}
+{% endblock %}
+{% block js %}
+{% endblock %}

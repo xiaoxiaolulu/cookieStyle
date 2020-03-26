@@ -18,6 +18,8 @@ django-redis==4.11.0  # https://github.com/niwinz/django-redis
 django-taggit
 django-mdeditor==0.1.14
 django-contrib-comments
+django-markdownx
+
 
 # Django REST Framework
 # djangorestframework==3.11.0  # https://github.com/encode/django-rest-framework

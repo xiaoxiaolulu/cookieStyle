@@ -3,6 +3,7 @@ from collections import Counter
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from markdownx.models import MarkdownxField
 from slugify import slugify
 from taggit.managers import TaggableManager
 from test.users.models import User
@@ -55,7 +56,7 @@ class Question(models.Model):
     title = models.CharField(max_length=255, unique=True, verbose_name='问题标题')
     slug = models.SlugField(max_length=255, null=True, blank=True, verbose_name='(URL)别名')
     status = models.CharField(max_length=1, choices=STATUS, default='0', verbose_name='问题状态')
-    content = models.TextField(verbose_name='问题内容')
+    content = MarkdownxField(verbose_name='问题内容')
     clicknum = models.IntegerField(verbose_name='浏览量', default=0)
     tags = TaggableManager(help_text='多个标签使用, (英文)隔开', verbose_name='标签')
     has_correct = models.BooleanField(default=False, verbose_name='是否有正确回答')

@@ -65,6 +65,7 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.humanize",   # Handy template tags
     "django.contrib.admin",
+    'django.forms'  # 放在此列表的最后！用户后面重写django内置widget的模板
 ]
 THIRD_PARTY_APPS = [
     "crispy_forms",
@@ -76,6 +77,7 @@ THIRD_PARTY_APPS = [
     'taggit',
     'mdeditor',
     'django_comments',
+    'markdownx'
 ]
 
 LOCAL_APPS = [
@@ -87,6 +89,8 @@ LOCAL_APPS = [
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
+
+FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 
 # MIGRATIONS
 # ------------------------------------------------------------------------------
@@ -330,3 +334,8 @@ MDEDITOR_CONFIGS = {
     }
 
 }
+
+
+# markdown上传图片大小限制
+MARKDOWNX_UPLOAD_MAX_SIZE = 50 * 1024 * 1024  # 允许上传的最大图片大小为5MB
+MARKDOWNX_IMAGE_MAX_SIZE = {'size': (1000, 1000), 'quality': 100}  # 图片大小为1000*1000，不压缩

@@ -10,7 +10,7 @@
     <div class="row">
       <div class="card my-4" style="width: 100%">
         <h5 class="card-header">按话题分类
-          <a href="" class="btn-sm btn-primary pull-right">
+          <a href="{% url 'quora:ask_question' %}" class="btn-sm btn-primary pull-right">
             <i class="fa fa-pencil" aria-hidden="true"></i> 提问
           </a>
         </h5>
@@ -29,13 +29,13 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link{% if active == 'unanswered' %} active{% endif %}"
+          <a class="nav-link{% if active == 'uncorrect_answered' %} active{% endif %}"
              href="{% url 'quora:uncorrect_answered_questions' %}">
             等待回答
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link{% if active == 'answered' %} active{% endif %}"
+          <a class="nav-link{% if active == 'correct_answered' %} active{% endif %}"
              href="{% url 'quora:correct_answered_questions' %}">
             已有回答
           </a>
@@ -44,7 +44,7 @@
         {% for item in question_list %}
             {% include 'quora/question_single.html' with question=item %}
         {% empty %}
-            <h4 class="no-data">没有要显示的问题</h4>
+          <h4 class="no-data w-100 p-2">没有要显示的问题</h4>
         {% endfor %}
     </div>
   </div>

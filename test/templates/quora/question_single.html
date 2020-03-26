@@ -3,33 +3,34 @@
     <div class="row">
       <div class="col-md-2">
         <div class="row text-center">
-      <div class="col-md-4">
-        <h5>{{ questions.count_answers }}</h5>
-        <small class="text-secondary">回答</small>
-      </div>
-      <div class="col-md-4">
-        <h5>{{ question.total_votes }}</h5>
-        <small class="text-secondary">投票</small>
-      </div>
-      <div class="col-md-4">
-        <h5>{{ question.clicknum }}</h5>
-        <small class="text-secondary">浏览</small>
-      </div>
-    </div>
+          <div class="col-md-4">
+            <h5 class="{% if question.has_correct %} bg-success text-white {% endif %}">{{ question.count_answers }}</h5>
+            <small class="text-secondary">回答</small>
+          </div>
+          <div class="col-md-4">
+            <h5>{{ question.total_votes }}</h5>
+            <small class="text-secondary">投票</small>
+          </div>
+          <div class="col-md-4">
+            <h5>{{ question.clicknum }}</h5>
+            <small class="text-secondary">浏览</small>
+          </div>
+        </div>
       </div>
       <div class="col-md-10">
         <div class="ml-5">
-      <p style="font-size: 20px"><a href="#">{{ question.title|title }}</a></p>
-      {% if question.tags.names %}
-        {% for tag in question.tags.names %}
-          <span class="badge badge-info"> {{ tag }}</span>
-        {% endfor %}
-      {% endif %}
-      <div class="question-user pull-right">
-        <a href="{% url 'users:detail' question.user.username %}">{{ question.user.get_profile_name }} </a>
-        <span class="text-secondary"> {{ question.created_at|timesince }}之前提问</span>
-      </div>
-    </div>
+          <p style="font-size: 20px"><a
+                  href="{% url 'quora:question_detail' question.pk question.slug %}">{{ question.title|title }}</a></p>
+          {% if question.tags.names %}
+            {% for tag in question.tags.names %}
+              <span class="badge badge-info"> {{ tag }}</span>
+            {% endfor %}
+          {% endif %}
+          <div class="question-user pull-right">
+            <a href="{% url 'users:detail' question.user.username %}">{{ question.user.get_profile_name }} </a>
+            <span class="text-secondary"> {{ question.created_at|timesince }}之前提问</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
