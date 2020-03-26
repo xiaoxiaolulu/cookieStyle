@@ -7,7 +7,7 @@ class QuestionListView(ListView):
 
     model = Question
     paginate_by = 20
-    context_object_name = 'questions-list'
+    context_object_name = 'question_list'
     template_name = 'quora/question_list.html'
 
     def get_context_data(self, *, object_list=None, **kwargs):

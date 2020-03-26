@@ -56,6 +56,7 @@ class Question(models.Model):
     slug = models.SlugField(max_length=255, null=True, blank=True, verbose_name='(URL)别名')
     status = models.CharField(max_length=1, choices=STATUS, default='0', verbose_name='问题状态')
     content = models.TextField(verbose_name='问题内容')
+    clicknum = models.IntegerField(verbose_name='浏览量', default=0)
     tags = TaggableManager(help_text='多个标签使用, (英文)隔开', verbose_name='标签')
     has_correct = models.BooleanField(default=False, verbose_name='是否有正确回答')
     created_at = models.DateTimeField(auto_now_add=True, null=True, verbose_name='创建时间')
