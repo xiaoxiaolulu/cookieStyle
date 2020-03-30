@@ -8,6 +8,46 @@
 {% endblock %}
 {% block content %}
   <div class="container">
+    <div class="page-header mt-2">
+      <h4>{{ question.title }}
+        <a href="{% url 'quora:ask_question' %}" class="btn-sm btn-primary pull-right">
+          <i class="fa fa-pencil" aria-hidden="true"></i> 提问
+        </a>
+      </h4>
+      <hr>
+    </div>
+    <div class="row">
+      <div class="col-md-11">
+        <p>{{ question.get_markdown|safe }}</p>
+        <span class="question-user pull-left">
+          {% if question.tags.names %}
+            【标签】
+            {% for tag in question.tags.names %}
+              <span class="badge badge-primary">{{ tag }}</span>
+            {% endfor %}
+          {% endif %}
+        </span>
+        <span class="question-user pull-right">
+          <a href="{% url 'users:detail' question.user.username %}">{{ question.user.get_profile_name }}</a>
+          <span class="text-secondary">{{ question.created_at|naturaltime }}</span>
+        </span>
+      </div>
+      <div class="col-md-1">
+        <div class="question-info options">
+          <h3 class="{% if question.has_answer %}bg-success text-white{% endif %}">{{ question.count_answers }}</h3>
+          <small class="text-secondary">回答</small>
+          <i id="questionUpVote"
+             class="fa fa-chevron-up vote up-vote question-vote{% if request.user in question.get_upvoters %} vote
+                d{% endif %}"
+             aria-hidden="true" title="单击赞同，再次点击取消"></i>
+          <h3 id="questionVotes">{{ question.total_votes }}</h3>
+          <i id="questionDownVote"
+             class="fa fa-chevron-down vote down-vote question-vote{% if request.user in question.get_downvoters %} voted
+{% endif %}" aria-hidden="true" title="单击反对，再次点击取消"></i>
+          <small class="text-secondary">投票</small>
+        </div>
+      </div>
+    </div>
     <div class="page-header">
       <hr>
       <h5>请在下面填写你的答案</h5>

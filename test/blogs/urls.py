@@ -1,6 +1,5 @@
 from django.urls import path
 from django.views.generic import TemplateView
-
 from test.blogs import views
 
 

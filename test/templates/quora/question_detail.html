@@ -16,7 +16,7 @@
       </h4>
       <hr>
     </div>
-    <div class="row">
+    <div class="row question" question-id="{{ question.pk }}">
       <div class="col-md-11">
         <p>{{ question.get_markdown|safe }}</p>
         <span class="question-user pull-left">
@@ -66,4 +66,5 @@
 {% block modal %}
 {% endblock %}
 {% block js %}
+  <script src="{% static 'js/quora.js' %}" type="text/javascript"></script>
 {% endblock %}

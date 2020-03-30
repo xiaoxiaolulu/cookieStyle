@@ -10,5 +10,8 @@ urlpatterns = [
     path('uncorrect_answered_questions', views.UnAnsweredQuestionListView.as_view(), name='uncorrect_answered_questions'),
     path('ask_question/', views.QuestionCreateView.as_view(), name="ask_question"),
     path('<int:pk>/', views.QuestionDetailView.as_view(), name="question_detail"),
-    path('create_answer/<int:question_id>/', views.AnswerCreateView.as_view(), name="create_answer")
+    path('create_answer/<int:question_id>/', views.AnswerCreateView.as_view(), name="create_answer"),
+    path('question/vote/', views.question_vote, name='question_vote'),
+    path('answer/vote/', views.answer_vote, name='answer_vote'),
+    path('accept_answer/', views.accept_answer, name='accept_answer')
 ]

@@ -136,3 +136,11 @@ class Answer(models.Model):
 
     def get_markdown(self):
         return markdownify(self.content)
+
+    def accept_answer(self):
+        answer_set = Answer.objects.filter(question=self.question)
+        answer_set.update(is_accepted=False)
+        self.is_accepted = True
+        self.save()
+        self.question.has_correct = True
+        self.question.save()
