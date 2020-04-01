@@ -8,7 +8,6 @@ from django.views import defaults as default_views
 urlpatterns = [
     path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
     path("about/", TemplateView.as_view(template_name="pages/about.html"), name="about"),
-    path("chat/", TemplateView.as_view(template_name="pages/chat.html"), name="chat"),
 
     # 第三方App
     re_path(r'mdeditor/', include('mdeditor.urls')),
@@ -25,7 +24,8 @@ urlpatterns = [
     # Your stuff: custom urls includes go here
     path("news/", include("test.news.urls", namespace="news")),
     path("blogs/", include("test.blogs.urls", namespace="blogs")),
-    path("quora/", include("test.quora.urls", namespace="quora"))
+    path("quora/", include("test.quora.urls", namespace="quora")),
+    path("chat/", include("test.chat.urls", namespace="chat"))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
